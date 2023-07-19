@@ -402,6 +402,12 @@ class Tester:
 
         if self.config['mode'] == 'sitl':
             if self.config['simulator'] == 'gazebo':
+                if test['cases']['Fly VTOL mission with wind change']['selected']:
+                    world_name = 'ramped_up_wind.world'
+                else:
+                    world_name = 'empty.world'
+                    print("    Using world file: {}".format(world_name))
+
                 gzserver_runner = ph.GzserverRunner(
                     os.getcwd(),
                     log_dir,
@@ -409,7 +415,8 @@ class Tester:
                     case,
                     self.get_max_speed_factor(test),
                     self.verbose,
-                    self.build_dir)
+                    self.build_dir,
+                    world_name)
                 self.active_runners.append(gzserver_runner)
 
                 gzmodelspawn_runner = ph.GzmodelspawnRunner(
